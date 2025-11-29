@@ -233,6 +233,7 @@ scare:Play()
 task.delay(2, function()
        replicatesignal(game.Players.LocalPlayer.Kill)
 	JumpscareGui:Destroy()
+end
 end)
 end)
 
@@ -240,4 +241,5 @@ end)
 
 
 entity:Run()
+
 
