@@ -1,0 +1,215 @@
+---====== Load spawner ======---
+local spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Doors/Entity%20Spawner/V2/Source.lua"))()
+
+---====== Create entity ======---
+local entity = spawner.Create({
+	Entity = {
+		Name = "Smiler",
+		Asset = "rbxassetid://108450814500304",
+		HeightOffset = 1
+	},
+	Lights = {
+		Flicker = { Enabled = true, Duration = 10 },
+		Shatter = true,
+		Repair = false
+	},
+	Earthquake = { Enabled = false },
+	CameraShake = {
+		Enabled = true,
+		Range = 100,
+		Values = {9, 20, 0.1, 1}
+	},
+	Movement = {
+		Speed = 500,
+		Delay = 12,
+		Reversed = false
+	},
+	Rebounding = {
+		Enabled = true,
+		Type = "Ambush",
+		Min = 10,
+		Max = 10,
+		Delay = 0
+	},
+	Damage = {
+		Enabled = true,
+		Range = 150,
+		Amount = 0.01
+	},
+	Crucifixion = {
+		Enabled = true,
+		Range = 160,
+		Resist = false,
+		Break = true
+	},
+	Death = {
+		Type = "Guiding",
+		Hints = {"Death", "Hints", "Go", "Here"},
+		Cause = ""
+	}
+})
+
+---====== Debug entity ======---
+entity:SetCallback("OnSpawned", function()
+	print("Entity has spawned")
+end)
+
+entity:SetCallback("OnStartMoving", function()
+	print("Entity has started moving")
+end)
+
+entity:SetCallback("OnRebounding", function(startOfRebound)
+	if startOfRebound then
+		warn("Smiler Smile")
+	else
+		-- Smiler rời rebound → đổi màu
+		game.Lighting.Ambient = Color3.fromRGB(255,0,0)
+		game:GetService("TweenService"):Create(
+			game.Lighting,
+			TweenInfo.new(1.5),
+			{Ambient = Color3.fromRGB(67, 51, 56)}
+		):Play()
+	end
+end)
+
+---====== Damage Player + JUMPSCARE ======---
+entity:SetCallback("OnDamagePlayer", function(newHealth)
+
+	if newHealth == 0 then
+		print("Entity has killed the player")
+		return
+	end
+
+	print("Entity has damaged the player")
+
+	-----------------------------------------------------
+	--                JUMPSCARE GUI
+	-----------------------------------------------------
+
+	local TweenService = game:GetService("TweenService")
+	local player = game.Players.LocalPlayer
+
+	local JumpscareGui = Instance.new("ScreenGui")
+	JumpscareGui.IgnoreGuiInset = true
+	JumpscareGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	JumpscareGui.Parent = player:WaitForChild("PlayerGui")
+
+	local Background = Instance.new("Frame")
+	Background.BackgroundColor3 = Color3.fromRGB(3, 25, 99)
+	Background.Size = UDim2.new(1, 0, 1, 0)
+	Background.ZIndex = 999
+	Background.Parent = JumpscareGui
+
+	local Overlay = Instance.new("ImageLabel")
+	Overlay.BackgroundTransparency = 1
+	Overlay.Size = UDim2.new(1, 0, 1, 0)
+	Overlay.Image = "rbxassetid://236542974"
+	Overlay.ZIndex = 998
+	Overlay.Parent = Background
+
+	local Face = Instance.new("ImageLabel")
+	Face.AnchorPoint = Vector2.new(0.5, 0.5)
+	Face.BackgroundTransparency = 1
+	Face.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Face.ResampleMode = Enum.ResamplerMode.Pixelated
+	Face.Size = UDim2.new(0, 150, 0, 150)
+	Face.Image = "rbxassetid://82464575677230"
+	Face.ZIndex = 1000
+	Face.Parent = Background
+
+	-- SOUND
+	local scare = Instance.new("Sound")
+	scare.SoundId = "rbxassetid://10483837590"
+	scare.Volume = 10
+	scare.Parent = JumpscareGui
+
+	-- FLASH COLOR LOOP
+	task.spawn(function()
+		while JumpscareGui.Parent do
+			Background.BackgroundColor3 = Color3.new(0,0,0)
+			task.wait(math.random(25,100)/1000)
+			Background.BackgroundColor3 = Color3.new(1,0,0)
+			task.wait(math.random(25,100)/1000)
+		end
+	end)
+
+	-- OVERLAY LOOP
+	local overlayImages = {
+		"rbxassetid://0",
+		"rbxassetid://0",
+	}
+	task.spawn(function()
+		local i = 1
+		while JumpscareGui.Parent do
+			Overlay.Image = overlayImages[i]
+			i = (i % #overlayImages) + 1
+			task.wait(0.5)
+		end
+	end)
+
+	--------------------------
+	--     SHAKE + ZOOM
+	--------------------------
+
+	local keepRotating = true
+	task.spawn(function()
+		while keepRotating do
+			Face.Rotation = math.random(-25,25)
+			task.wait(0.01)
+		end
+	end)
+
+	local function tweenTo(obj,props,time)
+		local tween = TweenService:Create(obj, TweenInfo.new(time), props)
+		tween:Play()
+		return tween
+	end
+
+	local function randomPos()
+		return UDim2.new(
+			0.5 + math.random(-40,45)/100,
+			0,
+			0.5 + math.random(-60,55)/100,
+			0
+		)
+	end
+
+	-- ZOOM IN
+	task.spawn(function()
+
+		local duration = 5
+		local enlarge = tweenTo(Face,{
+			Size = UDim2.new(2.5,0,2.5,0)
+		}, duration)
+
+		local start = tick()
+		while tick() - start < duration do
+			Face.Position = randomPos()
+			task.wait()
+		end
+
+		enlarge.Completed:Wait()
+		keepRotating = false
+	end)
+
+	-- PLAY SOUND
+	scare:Play()
+
+	-- DELETE GUI + KILL
+	task.delay(2, function()
+
+		-- GIẾT PLAYER ĐÚNG CÁCH
+		local hum = player.Character and player.Character:FindFirstChild("Humanoid")
+		if hum then
+			hum.Health = 0
+		end
+
+		if JumpscareGui then
+			JumpscareGui:Destroy()
+		end
+	end)
+
+end)
+
+---====== START ENTITY ======---
+entity:Run()
