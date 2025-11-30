@@ -66,6 +66,8 @@ game.Lighting.Ambient = Color3.fromRGB(76, 76, 76)
 			TweenInfo.new(7),
 			{Ambient = Color3.fromRGB(67, 51, 56))}
 		):Play()
+end
+
 end)
 
 entity:SetCallback("OnStartMoving", function()
