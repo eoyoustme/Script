@@ -32,7 +32,7 @@ local entity = spawner.Create({
 		Delay = 0
 	},
 	Damage = {
-		Enabled = true,
+		Enabled = false,
 		Range = 150,
 		Amount = 125
 	},
@@ -212,4 +212,5 @@ end)
 
 ---====== START ENTITY ======---
 entity:Run()
+
 
