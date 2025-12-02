@@ -19,7 +19,7 @@ local entity = spawner.Create({
   Repair = false
  },
  CameraShake = {
-  Enabled = false,
+  Enabled = true,
   Range = 100,
   Values = {1.5, 20, 0.1, 1} -- Magnitude, Roughness, FadeIn, FadeOut
  },
@@ -147,7 +147,7 @@ local entity = spawner.Create({
   Repair = false
  },
  CameraShake = {
-  Enabled = false,
+  Enabled = true,
   Range = 100,
   Values = {1.5, 20, 0.1, 1} -- Magnitude, Roughness, FadeIn, FadeOut
  },
