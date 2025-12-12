@@ -52,8 +52,8 @@ local entity = spawner.Create({
 	},
 	Death = {
 		Type = "Guiding", -- "Curious"
-		Hints = {"Death", "Hints", "Go", "Here"},
-		Cause = ""
+		Hints = {"You die to Depth", "Everytime spawn light will change to blue a and alarm loud will active", "he is faster than rush but slower than ambush a litter, "He is crazy and move like Ambush"},
+		Cause = "Depth"
 	}
 })
 
