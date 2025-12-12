@@ -78,7 +78,7 @@ local cue = Instance.new("Sound")
 cue.Parent = workspace
 cue.SoundId = "rbxassetid://926058764"
 cue.Volume = 10
-cue.PlaybackSpeed = 0.25
+cue.PlaybackSpeed = 0.89
 
 -- 🔥 Load âm thanh trước
 cue.Loaded:Wait()
@@ -90,7 +90,7 @@ cue.TimePosition = 0
 cue:Play()
 
 -- Lighting bắt đầu ngay
-cc.TintColor = Color3.fromRGB(0, 200, 255)
+cc.TintColor = Color3.fromRGB(0, 135, 255)
 cc.Contrast = 1
 cc.Saturation = -0.7
 TweenService:Create(cc, TweenInfo.new(10), {Contrast = 0}):Play()
