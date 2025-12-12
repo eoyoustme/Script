@@ -25,7 +25,7 @@ local entity = spawner.Create({
 	CameraShake = {
 		Enabled = true,
 		Range = 100,
-		Values = {1.5, 20, 0.1, 1} -- Magnitude, Roughness, FadeIn, FadeOut
+		Values = {10, 30, 0.1, 1.2} -- Magnitude, Roughness, FadeIn, FadeOut
 	},
 	Movement = {
 		Speed = 200,
@@ -90,35 +90,11 @@ cue.TimePosition = 0
 cue:Play()
 
 -- Lighting bắt đầu ngay
-cc.TintColor = Color3.fromRGB(0, 0, 25)
-cc.Contrast = 0.2
+cc.TintColor = Color3.fromRGB(0, 200, 255)
+cc.Contrast = 1
 cc.Saturation = -0.7
 TweenService:Create(cc, TweenInfo.new(10), {Contrast = 0}):Play()
 TweenService:Create(cc, TweenInfo.new(10), {Saturation = 0}):Play()
-
--- Tăng dần PlaybackSpeed + đổi màu + camera shake
-task.spawn(function()
-	-- 0.25
-	cc.TintColor = Color3.fromRGB(0, 0, 25)
-	camShake:ShakeOnce(5, 2, 1, 2, 1, 6)
-	task.wait(0.35)
-
-	-- 0.5
-	cue.PlaybackSpeed = 0.35
-	cc.TintColor = Color3.fromRGB(0, 0, 125)
-	camShake:ShakeOnce(6, 2, 4, 1, 4, 7)
-	task.wait(0.35)
-
-	-- 0.75
-	cue.PlaybackSpeed = 0.5
-	cc.TintColor = Color3.fromRGB(0, 0, 205)
-	camShake:ShakeOnce(10, 5, 2, 8, 1, 12)
-	task.wait(0.35)
-
-	-- 1.0
-	cue.PlaybackSpeed = 0.89
-	cc.TintColor = Color3.fromRGB(0, 0, 255)
-	camShake:ShakeOnce(12, 6, 3, 10, 2, 15)
 
 	-- Tween fade trắng 8 giây
 	TweenService:Create(cc, TweenInfo.new(15), {TintColor = Color3.fromRGB(255, 255, 255)}):Play()
