@@ -28,7 +28,7 @@ local entity = spawner.Create({
  },
  Movement = {
   Speed = 200,
-  Delay = 6,
+  Delay = 7,
   Reversed = true
  },
  Rebounding = {
@@ -76,7 +76,7 @@ end
     move.Name = "ReboundMoving"
     move.Volume = 4
     move.Looped = true
-wait(3)
+wait(3.6)
 local TweenService = game:GetService("TweenService")
 local spawn = Instance.new("Sound")
 spawn.Parent = bruh
@@ -175,7 +175,7 @@ local entity = spawner.Create({
  },
  Movement = {
   Speed = 200,
-  Delay = 6,
+  Delay = 7,
   Reversed = true
  },
  Rebounding = {
@@ -223,7 +223,7 @@ end
     move.Name = "ReboundMoving"
     move.Volume = 4
     move.Looped = true
-wait(3)
+wait(3.6)
 local TweenService = game:GetService("TweenService")
 local spawn = Instance.new("Sound")
 spawn.Parent = bruh
