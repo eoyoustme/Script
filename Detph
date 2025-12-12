@@ -9,7 +9,7 @@ local entity = spawner.Create({
 	Entity = {
 		Name = "Depth",
 		Asset = "https://github.com/eoyoustme/ohh/blob/main/Detph.rbxm?raw=true",
-		HeightOffset = 0
+		HeightOffset = -1
 	},
 	Lights = {
 		Flicker = {
@@ -95,7 +95,7 @@ cc.Contrast = 1
 cc.Saturation = -0.7
 TweenService:Create(cc, TweenInfo.new(10), {Contrast = 0}):Play()
 TweenService:Create(cc, TweenInfo.new(10), {Saturation = 0}):Play()
-
+wait(1)
 	-- Tween fade trắng 8 giây
 	TweenService:Create(cc, TweenInfo.new(15), {TintColor = Color3.fromRGB(255, 255, 255)}):Play()
 
@@ -140,92 +140,92 @@ end)
 entity:SetCallback("OnDamagePlayer", function(newHealth)
 	if newHealth == 0 then
 		print("Entity has killed the player")
-		local RunService = game:GetService("RunService")
-		local TweenService = game:GetService("TweenService")
-		local Players = game:GetService("Players")
-		local player = Players.LocalPlayer
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
 
-		-- Tạo sound + effect giống bạn
-		local sound = Instance.new("Sound", workspace)
-		sound.SoundId = "rbxassetid://5263560566"
-		sound. TimePosition = 0
-		local level = Instance.new("DistortionSoundEffect", sound)
-		level.Level = 0.97
-		
-		wait(0.2)
+-- Tạo sound + effect giống bạn
+local sound = Instance.new("Sound", workspace)
+sound.SoundId = "rbxassetid://5263560566"
+sound. TimePosition = 0
+local level = Instance.new("DistortionSoundEffect", sound)
+level.Level = 0.97
 
-		-- Tạo GUI
-		local screen = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+wait(0.2)
 
-		local background = Instance.new("Frame", screen)
-		background.AnchorPoint = Vector2.new(0.5, 0.5)
-		background.Size = UDim2.new(10, 0, 10, 0)
-		background.Position = UDim2.new(0.5, 0, 0.5, 0)
-		background.BackgroundColor3 = Color3.fromRGB(0, 157, 255)
+-- Tạo GUI
+local screen = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
 
-		local image = Instance.new("ImageLabel", screen)
-		image.AnchorPoint = Vector2.new(0.5, 0.5)
-		image.Position = UDim2.new(0.5, 0, 0.5, 0)
-		image.BackgroundTransparency = 1
-		image.Size = UDim2.new(0, 5, 0, 5)
-		image.LayoutOrder = 0
-		image.BorderSizePixel = 0
-		image.Image = "http://www.roblox.com/asset/?id=11278229112"
-		image.Rotation = 0
+local background = Instance.new("Frame", screen)
+background.AnchorPoint = Vector2.new(0.5, 0.5)
+background.Size = UDim2.new(10, 0, 10, 0)
+background.Position = UDim2.new(0.5, 0, 0.5, 0)
+background.BackgroundColor3 = Color3.fromRGB(0, 157, 255)
 
-		-- flash màu background như bạn
-		task.spawn(function()
-			while background and background.Parent do
-				background.BackgroundColor3 = Color3.fromRGB(0, 17, 255)
-				task.wait(0.08)
-				if not background or not background.Parent then break end
-				background.BackgroundColor3 = Color3.fromRGB(0, 157, 255)
-				task.wait(0.08)
-			end
-		end)
+local image = Instance.new("ImageLabel", screen)
+image.AnchorPoint = Vector2.new(0.5, 0.5)
+image.Position = UDim2.new(0.5, 0, 0.5, 0)
+image.BackgroundTransparency = 1
+image.Size = UDim2.new(0, 5, 0, 5)
+image.LayoutOrder = 0
+image.BorderSizePixel = 0
+image.Image = "http://www.roblox.com/asset/?id=11278229112"
+image.Rotation = 0
 
-		-- play sound
-		sound:Play()
+-- flash màu background như bạn
+task.spawn(function()
+	while background and background.Parent do
+		background.BackgroundColor3 = Color3.fromRGB(0, 17, 255)
+		task.wait(0.08)
+		if not background or not background.Parent then break end
+		background.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		task.wait(0.08)
+	end
+end)
 
-		-- Tween scale ảnh (giữ nguyên thời gian 35s)
-		local tween = TweenService:Create(image, TweenInfo.new(35, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 130000, 0, 130000)})
-		tween:Play()
+-- play sound
+sound:Play()
 
-		-- ====== Phần thêm: oscillation (rotation + position jitter) ======
-		local ROT_AMPLITUDE = 12        -- góc tối đa (deg)
-		local PERIOD = 0.1              -- chu kỳ đầy đủ (giây) => -12 -> +12 -> -12
-		local JITTER_X = 100             -- jitter theo pixels ngang (±)
-		local JITTER_Y = 60              -- jitter theo pixels dọc (±)
+-- Tween scale ảnh (giữ nguyên thời gian 35s)
+local tween = TweenService:Create(image, TweenInfo.new(75, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 130000, 0, 130000)})
+tween:Play()
 
-		-- bắt đầu time
-		local t0 = tick()
-		local conn
-		conn = RunService.RenderStepped:Connect(function()
-			-- nếu image đã bị xóa thì ngắt connection
-			if not image or not image.Parent then
-				if conn then conn:Disconnect() end
-				return
-			end
+-- ====== Phần thêm: oscillation (rotation + position jitter) ======
+local ROT_AMPLITUDE = 12        -- góc tối đa (deg)
+local PERIOD = 0.1              -- chu kỳ đầy đủ (giây) => -12 -> +12 -> -12
+local JITTER_X = 60             -- jitter theo pixels ngang (±)
+local JITTER_Y = 60              -- jitter theo pixels dọc (±)
 
-			local elapsed = tick() - t0
-			-- sinus để quay mượt: sin(2*pi * elapsed / PERIOD) in [-1,1]
-			local s = math.sin(2 * math.pi * elapsed / PERIOD)
-			image.Rotation = ROT_AMPLITUDE * s
+-- bắt đầu time
+local t0 = tick()
+local conn
+conn = RunService.RenderStepped:Connect(function()
+	-- nếu image đã bị xóa thì ngắt connection
+	if not image or not image.Parent then
+		if conn then conn:Disconnect() end
+		return
+	end
 
-			-- position jitter xung quanh center (UDim2.new(0.5, offsetX, 0.5, offsetY))
-			local offsetX = math.sin(2 * math.pi * elapsed / (PERIOD * 1.3)) * JITTER_X -- tỉ lệ khác 1.3 để không hoàn toàn đồng bộ với rotation
-			local offsetY = math.cos(2 * math.pi * elapsed / (PERIOD * 1.1)) * JITTER_Y
-			image.Position = UDim2.new(0.5, offsetX, 0.5, offsetY)
-		end)
-		-- =================================================================
+	local elapsed = tick() - t0
+	-- sinus để quay mượt: sin(2*pi * elapsed / PERIOD) in [-1,1]
+	local s = math.sin(2 * math.pi * elapsed / PERIOD)
+	image.Rotation = ROT_AMPLITUDE * s
 
-		-- Nếu bạn vẫn muốn destroy giống code gốc: (hiện bạn xóa sau 1 giây)
-		task.wait(1)
-		if sound then sound:Destroy() end
-		if screen then screen:Destroy() end
-		if conn then
-			pcall(function() conn:Disconnect() end)
-		end
+	-- position jitter xung quanh center (UDim2.new(0.5, offsetX, 0.5, offsetY))
+	local offsetX = math.sin(2 * math.pi * elapsed / (PERIOD * 1.3)) * JITTER_X -- tỉ lệ khác 1.3 để không hoàn toàn đồng bộ với rotation
+	local offsetY = math.cos(2 * math.pi * elapsed / (PERIOD * 1.1)) * JITTER_Y
+	image.Position = UDim2.new(0.5, offsetX, 0.5, offsetY)
+end)
+-- =================================================================
+
+-- Nếu bạn vẫn muốn destroy giống code gốc: (hiện bạn xóa sau 1 giây)
+task.wait(1.5)
+if sound then sound:Destroy() end
+if screen then screen:Destroy() end
+if conn then
+	pcall(function() conn:Disconnect() end)
+end
 	else
 		print("Entity has damaged the player")
 	end
