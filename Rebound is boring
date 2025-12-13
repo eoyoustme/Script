@@ -39,7 +39,7 @@ local entity = spawner.Create({
   Delay = 2
  },
  Damage = {
-  Enabled = false,
+  Enabled = true,
   Range = 40,
   Amount = 125
  },
@@ -60,23 +60,25 @@ local entity = spawner.Create({
 
 entity:SetCallback("OnSpawned", function()
     print("Entity has spawned")
-local bruh = workspace.Rebound.RushNew
-function GetGitSound(GithubSnd,SoundName)
- local url=GithubSnd
- if not isfile(SoundName..".mp3") then
-  writefile(SoundName..".mp3", game:HttpGet(url))
- end
- local sound=Instance.new("Sound")
- sound.SoundId=(getcustomasset or getsynasset)(SoundName..".mp3")
- return sound
-end
 
-   local move = GetGitSound("https://github.com/talales/Nhankg.-/blob/main/XRecorder_20251206_15.mp3?raw=true","Reboun")
-    move.Parent = bruh
-    move.Name = "ReboundMoving"
-    move.Volume = 4
-    move.Looped = true
+local function GetGitSound(GithubSnd, SoundName)
+                local url = GithubSnd
+                if not isfile(SoundName .. ".mp3") then
+                    writefile(SoundName .. ".mp3", game:HttpGet(url))
+                end
+                local sound = Instance.new("Sound")
+                sound.SoundId = (getcustomasset or getsynasset)(SoundName .. ".mp3")
+                return sound
+end
+local Jumpscare = GetGitSound("https://github.com/eoyoustme/Script/blob/main/XRecorder_20251206_15.mp3?raw=true","XRecorder")
+Jumpscare.Parent = workspace
+Jumpscare.Volume = 3
+Jumpscare.PlaybackSpeed = 1
+Jumpscare:Play()
+
+
 wait(3.6)
+local bruh = workspace.Rebound.RushNew
 local TweenService = game:GetService("TweenService")
 local spawn = Instance.new("Sound")
 spawn.Parent = bruh
@@ -89,7 +91,7 @@ spawn:Play()
     local move = GetGitSound("https://github.com/check78/worldcuuuup/blob/main/DoomBegin.mp3?raw=true","Reboun")
     move.Parent = bruh
     move.Name = "ReboundMoving"
-    move.Volume = 0
+    move.Volume = 2
     move.Looped = true
 local vroom = TweenService:Create(move, TweenInfo.new(2),{Volume = 0.2})
     local distort = Instance.new("DistortionSoundEffect")
@@ -207,23 +209,24 @@ local entity = spawner.Create({
 
 entity:SetCallback("OnSpawned", function()
     print("Entity has spawned")
-local bruh = workspace.Rebound.RushNew
-function GetGitSound(GithubSnd,SoundName)
- local url=GithubSnd
- if not isfile(SoundName..".mp3") then
-  writefile(SoundName..".mp3", game:HttpGet(url))
- end
- local sound=Instance.new("Sound")
- sound.SoundId=(getcustomasset or getsynasset)(SoundName..".mp3")
- return sound
+local function GetGitSound(GithubSnd, SoundName)
+                local url = GithubSnd
+                if not isfile(SoundName .. ".mp3") then
+                    writefile(SoundName .. ".mp3", game:HttpGet(url))
+                end
+                local sound = Instance.new("Sound")
+                sound.SoundId = (getcustomasset or getsynasset)(SoundName .. ".mp3")
+                return sound
 end
+local Jumpscare = GetGitSound("https://github.com/eoyoustme/Script/blob/main/XRecorder_20251206_15.mp3?raw=true","XRecorder")
+Jumpscare.Parent = workspace
+Jumpscare.Volume = 3
+Jumpscare.PlaybackSpeed = 1
+Jumpscare:Play()
 
-   local move = GetGitSound("https://github.com/talales/Nhankg.-/blob/main/XRecorder_20251206_15.mp3?raw=true","Reboun")
-    move.Parent = bruh
-    move.Name = "ReboundMoving"
-    move.Volume = 4
-    move.Looped = true
+
 wait(3.6)
+local bruh = workspace.Rebound.RushNew
 local TweenService = game:GetService("TweenService")
 local spawn = Instance.new("Sound")
 spawn.Parent = bruh
